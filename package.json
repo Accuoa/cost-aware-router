@@ -1,0 +1,24 @@
+{
+  "name": "cost-aware-router",
+  "version": "0.1.0",
+  "description": "OpenAI-compatible proxy that routes simple requests to local Ollama, complex ones to GPT-4o.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "vitest run",
+    "benchmark": "node benchmark/run.mjs",
+    "lint": "prettier --check ."
+  },
+  "dependencies": {
+    "fastify": "^5.0.0",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.0",
+    "prettier": "^3.3.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
