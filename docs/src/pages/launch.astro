@@ -1,0 +1,18 @@
+---
+import Landing from '../layouts/Landing.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { ContentSchema } from '../content/config';
+import contentJson from '../content.example.json';
+
+const content = ContentSchema.parse(contentJson);
+---
+<Landing content={content} pageTitle={`Launching ${content.project.name}`}>
+  <article class="prose dark:prose-invert">
+    <h1>Launching {content.project.name}</h1>
+    <p data-testid="launch-post-body">
+      Per-project launch post body goes here. The repo scaffolder will fill this in
+      from the project's <code>blog-post.md</code>.
+    </p>
+  </article>
+</Landing>
+<SiteFooter content={content} />

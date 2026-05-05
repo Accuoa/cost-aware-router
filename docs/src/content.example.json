@@ -1,0 +1,42 @@
+{
+  "project": {
+    "slug": "cost-aware-router",
+    "name": "CostAwareRouter",
+    "statusBadge": "concept — no code yet",
+    "primaryCta": {
+      "label": "Read on GitHub",
+      "href": "https://github.com/Accuoa/cost-aware-router"
+    }
+  },
+  "hero": {
+    "headline": "Placeholder — content lands when this idea ships."
+  },
+  "problem": {
+    "body": "This page is a placeholder. Real content arrives as part of this project’s launch in the next two weeks."
+  },
+  "proposal": {
+    "body": "When this project ships, this section describes the proposal — what this primitive is and isn’t, in plain language."
+  },
+  "whyNow": {
+    "body": "When this project ships, this section explains what shifted in 2025-2026 that makes this newly possible or needed."
+  },
+  "cta": {
+    "headline": "Get notified when this ships.",
+    "secondary": {
+      "label": "Get updates",
+      "placeholder": "your@email.com"
+    }
+  },
+  "about": {
+    "body": "Built by Aiden. This is an exploratory project — feedback welcome.",
+    "githubUrl": "https://github.com/Accuoa",
+    "contactUrl": "https://twitter.com/aidenbolin"
+  },
+  "email": {
+    "captureEndpoint": "https://api.aidenbolin.dev/signup",
+    "projectId": "cost-aware-router"
+  },
+  "footer": {
+    "license": "MIT"
+  }
+}

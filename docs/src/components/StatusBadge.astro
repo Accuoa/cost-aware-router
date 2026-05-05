@@ -1,0 +1,11 @@
+---
+const { variant } = Astro.props as { variant: string };
+const cls = {
+  'alpha demo': 'bg-amber-100 text-amber-900 border-amber-300',
+  'draft spec v0.1': 'bg-sky-100 text-sky-900 border-sky-300',
+  'concept — no code yet': 'bg-slate-100 text-slate-700 border-slate-300',
+}[variant] ?? 'bg-slate-100 text-slate-700 border-slate-300';
+---
+<span class:list={[
+  'inline-block text-xs font-mono px-2 py-1 rounded border', cls,
+]} data-testid="status-badge">{variant}</span>

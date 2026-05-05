@@ -1,0 +1,12 @@
+---
+const { content } = Astro.props as { content: any };
+const projectId = content.project.slug;
+---
+<section data-testid="primary-cta" class="mb-8">
+  <a
+    href={content.project.primaryCta.href}
+    data-project-id={projectId}
+    class="inline-block px-6 py-3 rounded bg-slate-900 text-white font-semibold hover:bg-slate-700"
+    onclick={`window.umami?.track('primary_cta_click', { project_id: '${projectId}' })`}
+  >{content.project.primaryCta.label}</a>
+</section>

@@ -1,0 +1,28 @@
+---
+import '../styles/global.css';
+import type { Content } from '../content/config';
+
+interface Props { content: Content; pageTitle?: string; }
+const { content, pageTitle } = Astro.props;
+const title = pageTitle ?? content.project.name;
+
+const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC;
+const umamiId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={content.hero.headline} />
+    {umamiSrc && umamiId && (
+      <script defer src={umamiSrc} data-website-id={umamiId}></script>
+    )}
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <main class="flex-1 max-w-2xl mx-auto px-6 py-12">
+      <slot />
+    </main>
+  </body>
+</html>

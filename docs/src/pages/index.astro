@@ -1,0 +1,25 @@
+---
+import Landing from '../layouts/Landing.astro';
+import Hero from '../components/Hero.astro';
+import Problem from '../components/Problem.astro';
+import Proposal from '../components/Proposal.astro';
+import WhyNow from '../components/WhyNow.astro';
+import PrimaryCTA from '../components/PrimaryCTA.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+import About from '../components/About.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { ContentSchema } from '../content/config';
+import contentJson from '../content.example.json';
+
+const content = ContentSchema.parse(contentJson);
+---
+<Landing content={content}>
+  <Hero content={content} />
+  <Problem content={content} />
+  <Proposal content={content} />
+  <WhyNow content={content} />
+  <PrimaryCTA content={content} />
+  <EmailCapture content={content} />
+  <About content={content} />
+</Landing>
+<SiteFooter content={content} />

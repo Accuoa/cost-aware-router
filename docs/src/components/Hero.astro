@@ -1,0 +1,20 @@
+---
+import StatusBadge from './StatusBadge.astro';
+const { content } = Astro.props as { content: any };
+const demoUrl = content.hero.demoVideoUrl;
+---
+<section data-testid="hero" class="mb-12">
+  <StatusBadge variant={content.project.statusBadge} />
+  <h1 class="mt-4 text-4xl font-bold tracking-tight">{content.hero.headline}</h1>
+  {demoUrl && (
+    <div data-testid="hero-demo" class="mt-6 aspect-video w-full">
+      <iframe
+        src={demoUrl}
+        class="w-full h-full rounded border border-slate-200"
+        title="Demo recording"
+        allow="autoplay; fullscreen"
+        loading="lazy"
+      />
+    </div>
+  )}
+</section>

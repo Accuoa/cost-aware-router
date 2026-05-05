@@ -1,0 +1,11 @@
+---
+const { content } = Astro.props as { content: any };
+---
+<footer data-testid="footer" class="mt-16 pt-6 border-t text-xs font-mono text-slate-500 max-w-2xl mx-auto px-6 pb-12">
+  <p>License: {content.footer.license}</p>
+  <p class="mt-1">
+    <a href="./privacy" class="underline">Privacy</a>
+    &nbsp;·&nbsp;
+    <a href="./terms" class="underline">Terms</a>
+  </p>
+</footer>

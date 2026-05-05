@@ -1,0 +1,18 @@
+name: Demo smoke test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Print one-command demo invocation
+        run: |
+          echo "CostAwareRouter demo runs via:"
+          echo "  (per-idea author replace this with the actual demo command)"
+          echo "(per-idea author should add a real smoke test here that exits 0 on success)"

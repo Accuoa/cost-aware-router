@@ -1,0 +1,12 @@
+---
+const { content } = Astro.props as { content: any };
+---
+<section data-testid="about" class="mb-10">
+  <h2 class="text-sm font-mono uppercase tracking-widest text-slate-500 mb-2">Who's behind this</h2>
+  <p class="text-lg leading-relaxed">{content.about.body}</p>
+  <p class="mt-2 text-sm font-mono">
+    <a href={content.about.githubUrl} class="underline">GitHub</a>
+    &nbsp;·&nbsp;
+    <a href={content.about.contactUrl} class="underline">contact</a>
+  </p>
+</section>

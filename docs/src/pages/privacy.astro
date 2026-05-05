@@ -1,0 +1,18 @@
+---
+import Landing from '../layouts/Landing.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { ContentSchema } from '../content/config';
+import contentJson from '../content.example.json';
+
+const content = ContentSchema.parse(contentJson);
+---
+<Landing content={content} pageTitle="Privacy">
+  <article class="prose dark:prose-invert">
+    <h1>Privacy</h1>
+    <p data-testid="privacy-body">
+      Privacy policy text is provided by <code>shared-content/privacy.md</code> and
+      injected by the repo scaffolder.
+    </p>
+  </article>
+</Landing>
+<SiteFooter content={content} />

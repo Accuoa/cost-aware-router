@@ -1,0 +1,7 @@
+---
+const { content } = Astro.props as { content: any };
+---
+<section data-testid="problem" class="mb-10">
+  <h2 class="text-sm font-mono uppercase tracking-widest text-slate-500 mb-2">The problem</h2>
+  <p class="text-lg leading-relaxed">{content.problem.body}</p>
+</section>
