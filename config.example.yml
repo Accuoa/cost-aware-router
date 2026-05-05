@@ -1,0 +1,21 @@
+routing:
+  length_threshold_tokens: 200
+  complexity_keywords:
+    - "step by step"
+    - "deeply analyze"
+    - "thoroughly explain"
+    - "compare and contrast"
+    - "detailed analysis"
+    - "comprehensive"
+    - "in depth"
+  always_cloud_keywords: []
+  always_local_keywords: []
+
+backends:
+  local:
+    base_url: http://ollama:11434/v1
+    model: qwen2.5:3b
+  cloud:
+    base_url: https://api.openai.com/v1
+    model: gpt-4o
+    api_key_env: OPENAI_API_KEY
