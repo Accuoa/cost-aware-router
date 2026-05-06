@@ -1,34 +1,34 @@
 {
   "project": {
     "slug": "cost-aware-router",
-    "name": "CostAwareRouter",
-    "statusBadge": "concept — no code yet",
+    "name": "cost-aware-router",
+    "statusBadge": "alpha demo",
     "primaryCta": {
-      "label": "Read on GitHub",
-      "href": "https://github.com/Accuoa/cost-aware-router"
+      "label": "Run the benchmark",
+      "href": "https://github.com/Accuoa/cost-aware-router#quickstart"
     }
   },
   "hero": {
-    "headline": "Placeholder — content lands when this idea ships."
+    "headline": "Save ~[SAVINGS_PCT]% on your LLM bill by sending the easy stuff to your laptop."
   },
   "problem": {
-    "body": "This page is a placeholder. Real content arrives as part of this project’s launch in the next two weeks."
+    "body": "Modern apps that call LLMs over-route to frontier models. A short factual question goes to GPT-4o (or Llama 3.3 70B, or whichever frontier model you picked) the same as a deep reasoning task. The bill compounds with usage that didn't actually need that capability — and there's no clean primitive that fixes this without rewriting the app's calling code."
   },
   "proposal": {
-    "body": "When this project ships, this section describes the proposal — what this primitive is and isn’t, in plain language."
+    "body": "cost-aware-router is an OpenAI-compatible HTTP proxy. You change one line — the OpenAI client's baseURL points at http://localhost:8080/v1 — and the proxy decides per-request whether to route to a local model (Ollama, free) or to the cloud (any OpenAI-compatible provider, paid) based on a transparent heuristic. The routing rule is open, tunable, and ~50 lines of code — not magic, just a clean abstraction over a real cost lever."
   },
   "whyNow": {
-    "body": "When this project ships, this section explains what shifted in 2025-2026 that makes this newly possible or needed."
+    "body": "Two things came together in 2025-2026: small local models (Qwen 2.5, Llama 3.2) hit 'good enough for simple stuff' for the first time, and frontier cloud pricing stayed expensive. The gap between what cloud charges and what local can do for half your traffic is real money — but most apps still send everything to the cloud because there's no easy primitive to do otherwise."
   },
   "cta": {
-    "headline": "Get notified when this ships.",
+    "headline": "See the benchmark numbers and run it yourself.",
     "secondary": {
       "label": "Get updates",
       "placeholder": "your@email.com"
     }
   },
   "about": {
-    "body": "Built by Aiden. This is an exploratory project — feedback welcome.",
+    "body": "Built by Aiden as part of an exploration into AI-primitive ideas. This is alpha — feedback welcome.",
     "githubUrl": "https://github.com/Accuoa",
     "contactUrl": "https://twitter.com/aidenbolin"
   },
