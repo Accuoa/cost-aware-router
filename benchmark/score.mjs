@@ -12,7 +12,7 @@ export function scoreMMLU(item, response) {
   return responseIdx === item.answer;
 }
 
-const FENCE_RE = /```(?:js|javascript)?\s*\n([\s\S]*?)\n```/;
+const FENCE_RE = /```(?:js|javascript)?[ \t]*\n([\s\S]*?)\n?```/;
 
 function extractCode(response) {
   const fenceMatch = response.match(FENCE_RE);

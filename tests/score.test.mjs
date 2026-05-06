@@ -20,7 +20,7 @@ describe('scoreMMLU', () => {
     expect(scoreMMLU(item, 'C')).toBe(false);
   });
 
-  it('parses first letter found if multiple letters appear', () => {
+  it('uses last letter found when multiple letters appear (handles chain-of-thought)', () => {
     expect(scoreMMLU(item, 'Choices A and C are wrong, the answer is B')).toBe(true);
     expect(scoreMMLU(item, 'A is wrong, B is right')).toBe(true);
   });
