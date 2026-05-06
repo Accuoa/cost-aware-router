@@ -9,10 +9,10 @@ import { loadConfig } from '../src/config.mjs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(__dirname);
 
-const PROXY_URL = process.env.PROXY_URL ?? 'http://localhost:8080/v1/chat/completions';
-const CLOUD_URL = process.env.CLOUD_URL ?? 'https://api.openai.com/v1/chat/completions';
-
 const config = loadConfig(join(ROOT, 'config.example.yml'));
+
+const PROXY_URL = process.env.PROXY_URL ?? 'http://localhost:8080/v1/chat/completions';
+const CLOUD_URL = process.env.CLOUD_URL ?? `${config.backends.cloud.base_url}/chat/completions`;
 const prices = loadPrices();
 
 function readJsonl(path) {
@@ -89,9 +89,10 @@ function fmt(n, decimals = 4) {
 }
 
 async function main() {
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKeyEnv = config.backends.cloud.api_key_env;
+  const apiKey = process.env[apiKeyEnv];
   if (!apiKey) {
-    console.error('OPENAI_API_KEY not set');
+    console.error(`${apiKeyEnv} not set`);
     process.exit(1);
   }
 

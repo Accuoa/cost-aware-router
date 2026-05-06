@@ -16,7 +16,8 @@ services:
     depends_on:
       - ollama
     environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - CONFIG_PATH=/app/config.example.yml
 
 volumes:

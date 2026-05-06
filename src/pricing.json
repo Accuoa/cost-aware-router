@@ -1,4 +1,6 @@
 {
+  "llama-3.3-70b-versatile": { "input_per_1m": 0.59, "output_per_1m": 0.79 },
+  "llama-3.1-8b-instant": { "input_per_1m": 0.05, "output_per_1m": 0.08 },
   "gpt-4o": { "input_per_1m": 2.5, "output_per_1m": 10.0 },
   "gpt-4o-mini": { "input_per_1m": 0.15, "output_per_1m": 0.6 },
   "qwen2.5:3b": { "input_per_1m": 0, "output_per_1m": 0 },
