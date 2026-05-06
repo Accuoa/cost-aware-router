@@ -25,6 +25,14 @@ describe('calculateCost', () => {
     expect(cost).toBe(0);
   });
 
+  it('strips OpenAI date snapshot suffix and matches base model', () => {
+    const cost = calculateCost(prices, 'gpt-4o-2024-11-20', {
+      prompt_tokens: 1_000_000,
+      completion_tokens: 0,
+    });
+    expect(cost).toBeCloseTo(2.5, 6);
+  });
+
   it('returns 0 for unknown models (fail-soft, log warning suppressed in tests)', () => {
     const cost = calculateCost(prices, 'unknown-model-xyz', {
       prompt_tokens: 100,

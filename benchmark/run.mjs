@@ -121,8 +121,10 @@ async function main() {
     try {
       const r = await runItem(target, item, prompt, scorer);
       const id = `${kind}/${item.task_id ?? item.subject + i}`;
+      const decision = r.decision ?? 'unknown';
+      const reason = r.reason ?? '';
       console.log(
-        `  ${r.proxy.correct ? '✓' : '✗'} ${id.padEnd(28)} ${r.decision} ${r.reason.padEnd(30)} — ${r.proxy.ms}ms — $${fmt(r.proxy.cost)}`,
+        `  ${r.proxy.correct ? '✓' : '✗'} ${id.padEnd(34)} ${decision.padEnd(7)} ${reason.padEnd(30)} — ${r.proxy.ms}ms — $${fmt(r.proxy.cost)}`,
       );
       results.push(r);
     } catch (err) {
@@ -143,9 +145,12 @@ async function main() {
     : 0;
   const accuracyPp = (proxyCorrect / valid.length - cloudCorrect / valid.length) * 100;
 
+  const dropped = total - valid.length;
+  const dropNote = dropped > 0 ? ` (${dropped} errored, excluded from totals)` : '';
+
   console.log('\nROUTING:');
   console.log(`  local:  ${localCount} / ${valid.length} (${fmt((localCount / valid.length) * 100, 1)}%) — ${config.backends.local.model} via Ollama`);
-  console.log(`  cloud:  ${cloudCount} / ${valid.length} (${fmt((cloudCount / valid.length) * 100, 1)}%) — ${config.backends.cloud.model}`);
+  console.log(`  cloud:  ${cloudCount} / ${valid.length} (${fmt((cloudCount / valid.length) * 100, 1)}%) — ${config.backends.cloud.model}${dropNote}`);
 
   console.log('\nACCURACY:');
   console.log(`  with proxy:    ${proxyCorrect} / ${valid.length} (${fmt((proxyCorrect / valid.length) * 100, 1)}%)`);
