@@ -81,6 +81,20 @@ npm run benchmark                     # ~5-10 minutes
 
 The runner makes 150 HTTP calls (75 proxy + 75 cloud-baseline). On Groq's free tier (30 RPM, 100K TPD), the run takes ~5–10 minutes with rate-limit backoff. The runner retries on 429 with exponential backoff (max 5 retries per item).
 
+### Baseline cache (for tuning iterations)
+
+When tuning the routing heuristic, you re-run the benchmark multiple times changing only the proxy-side routing config. The cloud-baseline calls don't change between runs — they're identical inputs at temperature=0. Cache them to disk to avoid re-spending cloud quota on every tuning iteration:
+
+```bash
+# First run: capture cloud baselines while running normally
+BASELINE_FILE=benchmark/baseline.jsonl npm run benchmark
+
+# Subsequent runs (different routing thresholds): replay cached baselines, only proxy is called fresh
+BASELINE_FILE=benchmark/baseline.jsonl npm run benchmark   # ~half the wall-clock, zero new cloud spend
+```
+
+`benchmark/baseline*.jsonl` is gitignored — these are runtime captures, not committed artifacts.
+
 Output ends with the canonical block:
 
 ```

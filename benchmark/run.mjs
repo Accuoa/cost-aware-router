@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync, appendFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { scoreMMLU, scoreHumanEvalJS } from './score.mjs';
@@ -78,7 +78,31 @@ async function callTarget(url, body, headers = {}) {
   }
 }
 
-async function runItem(target, item, prompt, scorer) {
+// Baseline cache — when BASELINE_FILE is set and exists, the all-cloud baseline
+// responses are loaded from disk instead of re-calling the cloud API. This lets
+// tuning iterations (where only the proxy-side routing changes) skip the cloud
+// half of the work entirely. First run with BASELINE_FILE set populates the file.
+const BASELINE_FILE = process.env.BASELINE_FILE;
+const baselineCache = new Map();
+let baselineMode = 'off'; // 'off' | 'replay' | 'capture'
+
+if (BASELINE_FILE) {
+  if (existsSync(BASELINE_FILE)) {
+    for (const line of readFileSync(BASELINE_FILE, 'utf-8').split('\n').filter(Boolean)) {
+      const obj = JSON.parse(line);
+      baselineCache.set(obj.id, obj);
+    }
+    baselineMode = 'replay';
+    console.log(
+      `[baseline] replaying ${baselineCache.size} cached cloud responses from ${BASELINE_FILE}`,
+    );
+  } else {
+    baselineMode = 'capture';
+    console.log(`[baseline] capturing cloud responses to ${BASELINE_FILE}`);
+  }
+}
+
+async function runItem(target, item, prompt, scorer, id) {
   const requestBody = { messages: prompt, temperature: 0 };
   // PROXY run (used for "with proxy" numbers)
   const proxy = await callTarget(target.proxy.url, requestBody);
@@ -86,10 +110,20 @@ async function runItem(target, item, prompt, scorer) {
   const proxyCorrect = scorer(item, proxyResponseText);
   const proxyCost = calculateCost(prices, proxy.body.model, proxy.body.usage);
 
-  // CLOUD-ONLY run (used for "all-cloud" baseline)
-  const cloud = await callTarget(target.cloud.url, { ...requestBody, model: target.cloud.model }, {
-    authorization: `Bearer ${target.cloud.apiKey}`,
-  });
+  // CLOUD-ONLY run (used for "all-cloud" baseline) — replay from cache if available.
+  let cloud;
+  if (baselineMode === 'replay' && baselineCache.has(id)) {
+    cloud = baselineCache.get(id);
+  } else {
+    cloud = await callTarget(
+      target.cloud.url,
+      { ...requestBody, model: target.cloud.model },
+      { authorization: `Bearer ${target.cloud.apiKey}` },
+    );
+    if (baselineMode === 'capture') {
+      appendFileSync(BASELINE_FILE, JSON.stringify({ id, body: cloud.body, ms: cloud.ms }) + '\n');
+    }
+  }
   const cloudResponseText = cloud.body.choices?.[0]?.message?.content ?? '';
   const cloudCorrect = scorer(item, cloudResponseText);
   const cloudCost = calculateCost(prices, target.cloud.model, cloud.body.usage);
@@ -137,9 +171,9 @@ async function main() {
   const results = [];
   for (let i = 0; i < items.length; i++) {
     const { kind, item, prompt, scorer } = items[i];
+    const id = `${kind}/${item.task_id ?? item.subject + i}`;
     try {
-      const r = await runItem(target, item, prompt, scorer);
-      const id = `${kind}/${item.task_id ?? item.subject + i}`;
+      const r = await runItem(target, item, prompt, scorer, id);
       const decision = r.decision ?? 'unknown';
       const reason = r.reason ?? '';
       console.log(
@@ -147,7 +181,7 @@ async function main() {
       );
       results.push(r);
     } catch (err) {
-      console.error(`  ✗ ${kind}/${i}: ${err.message}`);
+      console.error(`  ✗ ${id}: ${err.message}`);
       results.push(null);
     }
   }
