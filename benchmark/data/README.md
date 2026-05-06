@@ -1,6 +1,6 @@
 # Benchmark data
 
-These items are committed verbatim so anyone can clone-and-rerun and verify the cost/accuracy numbers.
+These items are committed (with minor JS-sandbox adaptations for HumanEval) so anyone can clone-and-rerun and verify the cost/accuracy numbers. MMLU items are unchanged from upstream. HumanEval-JS `prompt` fields have the trailing `{` removed and `assert.deepEqual(A, B)` calls converted to `console.assert(JSON.stringify(A) === JSON.stringify(B))` so the data runs cleanly in the score harness's `vm.runInNewContext` sandbox. Typos and quirks in upstream questions/docstrings are preserved verbatim.
 
 ## Sources
 
