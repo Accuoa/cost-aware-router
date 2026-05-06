@@ -1,4 +1,5 @@
 import Fastify from 'fastify';
+import { pathToFileURL } from 'node:url';
 import { decideRoute } from './router.mjs';
 import { callOllama } from './backends/ollama.mjs';
 import { callOpenAI } from './backends/openai.mjs';
@@ -49,8 +50,8 @@ export async function buildServer({ config, fetchFn = globalThis.fetch, env = pr
   return fastify;
 }
 
-// CLI entrypoint
-const isMain = import.meta.url === `file://${process.argv[1]}`;
+// CLI entrypoint — pathToFileURL handles Windows path separators correctly
+const isMain = process.argv[1] ? import.meta.url === pathToFileURL(process.argv[1]).href : false;
 if (isMain) {
   const configPath = process.env.CONFIG_PATH ?? './config.example.yml';
   const config = loadConfig(configPath);
