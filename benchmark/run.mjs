@@ -40,24 +40,42 @@ function buildHumanEvalPrompt(item) {
   ];
 }
 
+const MAX_RETRIES = 5;
+
+// Detect rate-limit errors: direct 429, or proxy-wrapped 5xx whose body mentions rate limiting
+function isRateLimitError(status, body) {
+  if (status === 429) return true;
+  if (status >= 500 && status < 600 && /rate.?limit|429/i.test(body)) return true;
+  return false;
+}
+
 async function callTarget(url, body, headers = {}) {
-  const t0 = Date.now();
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', ...headers },
-    body: JSON.stringify(body),
-  });
-  const ms = Date.now() - t0;
-  if (!res.ok) {
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    const t0 = Date.now();
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', ...headers },
+      body: JSON.stringify(body),
+    });
+    const ms = Date.now() - t0;
+    if (res.ok) {
+      return {
+        body: await res.json(),
+        decision: res.headers.get('x-router-decision'),
+        reason: res.headers.get('x-router-reason'),
+        ms,
+      };
+    }
     const text = await res.text();
-    throw new Error(`${url} returned ${res.status}: ${text}`);
+    if (!isRateLimitError(res.status, text) || attempt === MAX_RETRIES) {
+      throw new Error(`${url} returned ${res.status}: ${text}`);
+    }
+    // Backoff: prefer server-suggested Retry-After, else exponential capped at 60s
+    const retryAfter = parseFloat(res.headers.get('retry-after')) || 0;
+    const backoffSec = Math.max(retryAfter, Math.min(2 ** attempt, 60));
+    console.log(`    [retry ${attempt + 1}/${MAX_RETRIES}] ${url.includes('groq') || url.includes('openai') ? 'cloud' : 'proxy'} ${res.status} rate-limited — backing off ${backoffSec.toFixed(1)}s`);
+    await new Promise((r) => setTimeout(r, backoffSec * 1000));
   }
-  return {
-    body: await res.json(),
-    decision: res.headers.get('x-router-decision'),
-    reason: res.headers.get('x-router-reason'),
-    ms,
-  };
 }
 
 async function runItem(target, item, prompt, scorer) {
