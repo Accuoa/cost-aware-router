@@ -95,6 +95,16 @@ BASELINE_FILE=benchmark/baseline.jsonl npm run benchmark   # ~half the wall-cloc
 
 `benchmark/baseline*.jsonl` is gitignored — these are runtime captures, not committed artifacts.
 
+### Quick smoke run with `LIMIT`
+
+For development against a small subset (iterating on the runner, not the routing config):
+
+```bash
+LIMIT=5 npm run benchmark   # runs only the first 5 items
+```
+
+Combine with `BASELINE_FILE` for the cheapest possible feedback loop while you're iterating on the codebase.
+
 Output ends with the canonical block:
 
 ```

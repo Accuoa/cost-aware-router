@@ -56,6 +56,9 @@ async function callTarget(url, body, headers = {}) {
       method: 'POST',
       headers: { 'content-type': 'application/json', ...headers },
       body: JSON.stringify(body),
+      // 60s timeout — cloud calls take ~1-3s normally, local ~1-10s; 60s catches
+      // a frozen Ollama or a network black hole without false-firing on slow paths.
+      signal: AbortSignal.timeout(60_000),
     });
     const ms = Date.now() - t0;
     if (res.ok) {
@@ -155,7 +158,7 @@ async function main() {
 
   const mmlu = readJsonl(join(__dirname, 'data', 'mmlu-50.jsonl'));
   const humaneval = readJsonl(join(__dirname, 'data', 'humaneval-25.jsonl'));
-  const items = [
+  const allItems = [
     ...mmlu.map((it) => ({ kind: 'mmlu', item: it, prompt: buildMmluPrompt(it), scorer: scoreMMLU })),
     ...humaneval.map((it) => ({
       kind: 'humaneval',
@@ -165,7 +168,13 @@ async function main() {
     })),
   ];
 
+  // LIMIT=N for development runs against a small subset (e.g. LIMIT=5 npm run benchmark
+  // exercises the full code path against 5 items instead of 75 — useful when iterating
+  // on the runner itself without burning Groq quota or wall-clock time).
+  const limit = parseInt(process.env.LIMIT ?? '0', 10);
+  const items = limit > 0 ? allItems.slice(0, limit) : allItems;
   const total = items.length;
+  if (limit > 0) console.log(`[limit] LIMIT=${limit} — running ${total} of ${allItems.length} items`);
   console.log(`[router] running benchmark — ${total} items`);
 
   const results = [];
