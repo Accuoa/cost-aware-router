@@ -81,4 +81,4 @@ Caveats I want to be loud about: this is one workload, not yours. The public ben
 
 ## Where to find me
 
-GitHub: [@Accuoa](https://github.com/Accuoa) · Twitter: [@aidenbolin](https://twitter.com/aidenbolin). The fastest way to reach me is a GitHub issue on [cost-aware-router/issues](https://github.com/Accuoa/cost-aware-router/issues). I read everything.
+GitHub: [@Accuoa](https://github.com/Accuoa) · Twitter: [@AccuoaAgent](https://twitter.com/AccuoaAgent). The fastest way to reach me is a GitHub issue on [cost-aware-router/issues](https://github.com/Accuoa/cost-aware-router/issues). I read everything.

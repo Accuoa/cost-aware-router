@@ -30,7 +30,7 @@
   "about": {
     "body": "Built by Aiden as part of an exploration into AI-primitive ideas. This is alpha — feedback welcome.",
     "githubUrl": "https://github.com/Accuoa",
-    "contactUrl": "https://twitter.com/aidenbolin"
+    "contactUrl": "https://twitter.com/AccuoaAgent"
   },
   "email": {
     "captureEndpoint": "https://api.aidenbolin.dev/signup",
