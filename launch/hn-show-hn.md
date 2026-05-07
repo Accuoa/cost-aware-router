@@ -3,7 +3,7 @@
 ## Title
 
 ```
-Show HN: Cost-aware LLM router – ~[SAVINGS_PCT]% savings on a public benchmark
+Show HN: Cost-aware LLM router – ~44% savings on a public benchmark
 ```
 
 (Title rules: HN allows up to 80 chars. Lead with "Show HN:". Lead with the concrete number after substitution. No emoji. No editorialization. Don't oversell — HN downvotes hyperbole.)
@@ -21,13 +21,13 @@ Hi HN,
 
 I built an OpenAI-compatible proxy that decides per-request whether to send to local Ollama or to a cloud frontier model. The decision is a transparent heuristic: code in the prompt → cloud, complexity keywords ("step by step", "deeply analyze") → cloud, long prompts → cloud, otherwise local.
 
-On a public benchmark (50 MMLU + 25 HumanEval-JS items): [SAVINGS_PCT]% cost savings vs an all-cloud baseline, [ACC_DELTA_PP]pp accuracy delta. Numbers and methodology committed to the repo (calibration.md). Anyone can clone and rerun against the same 75 items.
+On a public benchmark (50 MMLU + 25 HumanEval-JS items): 44% cost savings vs an all-cloud baseline, 2.7pp accuracy delta. Numbers and methodology committed to the repo (calibration.md). Anyone can clone and rerun against the same 75 items.
 
 Adoption is one line: change baseURL from api.openai.com/v1 (or your provider's URL) to localhost:8080/v1. Existing OpenAI SDK code keeps working.
 
 What's NOT in this alpha: streaming, embeddings, multi-tenant, auth. Just /v1/chat/completions. The roadmap has the full v0.2 list, with Docker Compose hardening and streaming as the top items.
 
-Worth flagging: the cloud baseline in this run was Groq's llama-3.3-70b-versatile (chose it for the free tier; the proxy is provider-agnostic). The framing "save ~[SAVINGS_PCT]% vs cloud" applies to whatever provider you point it at — pricing entries for OpenAI's gpt-4o and gpt-4o-mini are also in pricing.json, the savings vs gpt-4o would be larger.
+Worth flagging: the cloud baseline in this run was Groq's llama-3.3-70b-versatile (chose it for the free tier; the proxy is provider-agnostic). The framing "save ~44% vs cloud" applies to whatever provider you point it at — pricing entries for OpenAI's gpt-4o and gpt-4o-mini are also in pricing.json, the savings vs gpt-4o would be larger.
 
 What I want from this post:
 - Real-world workload tries (file issues with what worked or didn't)
@@ -59,7 +59,7 @@ Day 1 Tuesday of launch week, **09:00–10:00 ET**. Tuesday–Thursday are HN's 
 Fair — OpenRouter is great for multi-cloud routing. The local primitive is the differentiator. If your goal is "find the cheapest cloud," OpenRouter wins. If your goal is "send the trivially-easy stuff to free local compute and only pay for the hard stuff," that's what this is for.
 
 **"Your local model is much weaker than GPT-4o, isn't this just sandbagging accuracy?"**
-The accuracy-delta number ([ACC_DELTA_PP]pp) is exactly what we measure to expose this. If the gap is too wide for your workload, the threshold knob fixes it (lower threshold → more cloud routes → smaller gap). Default config is one point on that curve, not the only point.
+The accuracy-delta number (2.7pp) is exactly what we measure to expose this. If the gap is too wide for your workload, the threshold knob fixes it (lower threshold → more cloud routes → smaller gap). Default config is one point on that curve, not the only point.
 
 **"Why a heuristic and not ML?"**
 ML routing requires training data and ongoing maintenance. A heuristic is debuggable in 60 seconds. For an alpha, it's the right tradeoff. v0.3 has an ML-classifier item in case the heuristic ceiling is real.
@@ -77,7 +77,7 @@ LangChain has provider abstractions but no per-request routing primitive — you
 
 ## Pre-post checklist
 
-- [ ] All `[SAVINGS_PCT]`, `[ACC_DELTA_PP]` placeholders replaced with locked numbers from `calibration.md`
+- [x] Calibration placeholders replaced with locked numbers from `calibration.md` (44% savings, –2.7 pp delta)
 - [ ] Title length verified ≤ 80 chars (HN limit)
 - [ ] Repo URL resolves; README first 5 lines have the headline numbers and a link to calibration.md
 - [ ] `calibration.md` published at the URL referenced in the body

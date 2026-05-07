@@ -1,5 +1,5 @@
 ---
-title: 'Save ~[SAVINGS_PCT]% on your LLM bill by sending the easy stuff to your laptop'
+title: 'Save ~44% on your LLM bill by sending the easy stuff to your laptop'
 published: false
 description: 'OpenAI-compatible proxy that routes simple requests to local Ollama, complex ones to a cloud frontier model. Drop-in: change one URL, see the savings.'
 tags: llm, ai, opensource, ollama
@@ -48,14 +48,24 @@ That's it. Five rules, each tunable in YAML, each surfaced in `X-Router-Decision
 
 ## The numbers (from a public benchmark)
 
-<!-- TODO[T11]: rewrite with calibrated numbers from calibration.md. Mention dataset (50 MMLU + 25 HumanEval-JS), cloud baseline (llama-3.3-70b-versatile via Groq), local model (qwen2.5:3b via Ollama), savings %, accuracy delta, routing breakdown. Be honest about workload bias. -->
-
-[CALIBRATION_NARRATIVE_PARAGRAPH]
+On the public benchmark — 50 MMLU items stratified across 5 subjects (high-school world history, college biology, miscellaneous, formal logic, professional psychology) and 25 HumanEval-JS items — the proxy at default config (300-token threshold, contains-code rule, complexity keywords) routed 55% of requests to local Ollama (`qwen2.5:3b`) and 45% to cloud Groq (`llama-3.3-70b-versatile`). The result: **44% cost reduction vs an all-cloud baseline, with a –2.7 pp accuracy delta** — essentially within eval noise on this workload. The accuracy gap was identical at threshold 200 and 300 (the marginal items shifted to local at 300 are easy enough that both models score them the same); the gap widens at higher thresholds where prompts that genuinely strain a 3B model start staying local.
 
 Verbatim runner output (so the numbers in this post are reproducible — clone the repo and `npm run benchmark` verifies them):
 
 ```
-[CALIBRATION_OUTPUT_BLOCK]
+ROUTING:
+  local:  41 / 75 (54.7%) — qwen2.5:3b via Ollama
+  cloud:  34 / 75 (45.3%) — llama-3.3-70b-versatile
+
+ACCURACY:
+  with proxy:    65 / 75 (86.7%)
+  all-cloud:     67 / 75 (89.3%)
+  delta:         -2.7 pp
+
+COST:
+  with proxy:    $0.0050
+  all-cloud:     $0.0090
+  savings:       44.4%
 ```
 
 The full calibration log, including every tuning iteration, lives in [`calibration.md`](https://github.com/Accuoa/cost-aware-router/blob/main/calibration.md). The 75 benchmark items (50 MMLU stratified across 5 subjects + 25 HumanEval-JS) are committed to the repo so anyone can rerun and verify.

@@ -9,7 +9,7 @@
     }
   },
   "hero": {
-    "headline": "Save ~[SAVINGS_PCT]% on your LLM bill by sending the easy stuff to your laptop."
+    "headline": "Save ~44% on your LLM bill by sending the easy stuff to your laptop."
   },
   "problem": {
     "body": "Modern apps that call LLMs over-route to frontier models. A short factual question goes to GPT-4o (or Llama 3.3 70B, or whichever frontier model you picked) the same as a deep reasoning task. The bill compounds with usage that didn't actually need that capability — and there's no clean primitive that fixes this without rewriting the app's calling code."

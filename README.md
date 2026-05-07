@@ -1,6 +1,6 @@
 # cost-aware-router
 
-> **Save ~[SAVINGS_PCT]% on your LLM bill by sending the easy stuff to your laptop.** OpenAI-compatible proxy that routes simple requests to local Ollama, complex ones to a cloud frontier model. Drop-in: change one URL, see the savings.
+> **Save ~44% on your LLM bill by sending the easy stuff to your laptop.** OpenAI-compatible proxy that routes simple requests to local Ollama, complex ones to a cloud frontier model. Drop-in: change one URL, see the savings.
 
 [![alpha demo](https://img.shields.io/badge/status-alpha%20demo-orange)](https://accuoa.github.io/cost-aware-router/)
 
@@ -8,9 +8,9 @@
 
 On 50 MMLU + 25 HumanEval-JS items, with `qwen2.5:3b` (Ollama) as the local model and `llama-3.3-70b-versatile` (Groq) as the cloud baseline:
 
-- **[SAVINGS_PCT]% cost savings** vs all-cloud baseline
-- **[ACC_DELTA_PP]pp accuracy delta** — [ACC_DELTA_NARRATIVE]
-- **[LOCAL_PCT]% of requests stayed local**
+- **44% cost savings** vs all-cloud baseline
+- **–2.7 pp accuracy delta** — essentially within eval noise on this workload
+- **55% of requests stayed local**
 
 Reproduce yourself in ~10 minutes — see [Quickstart](#quickstart). Methodology and per-run numbers in [`calibration.md`](./calibration.md). The 75 benchmark items live in [`benchmark/data/`](./benchmark/data/) so anyone can rerun against the same inputs.
 

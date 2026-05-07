@@ -1,13 +1,13 @@
 # Twitter thread — cost-aware-router launch
 
-> All `[CALIBRATION_*]` placeholders get filled in once `calibration.md` is locked. Tweets must be ≤ 280 chars after substitution — verify each one before posting.
+> Calibration numbers below were filled from `calibration.md` (Run 3: 44% savings / –2.7 pp delta). Each tweet must still be ≤ 280 chars — verify in Twitter compose before posting.
 
 ## Lead tweet (with screenshot of `npm run benchmark` summary block attached)
 
 ```
 I built a tiny OpenAI-compatible proxy that routes simple requests to a local Ollama model and complex ones to a cloud frontier model.
 
-On a public benchmark (50 MMLU + 25 HumanEval-JS): [SAVINGS_PCT]% cost savings, [ACC_DELTA_PP]pp accuracy delta.
+On a public benchmark (50 MMLU + 25 HumanEval-JS): 44% cost savings, 2.7pp accuracy delta.
 
 ~50 lines of routing logic. Drop-in. → 🧵
 ```
@@ -99,7 +99,7 @@ Update from launch day:
 
 ## Voice notes
 
-- Lead tweet has the strongest hook. Numbers in the first 60 chars after the [SAVINGS_PCT] substitution.
+- Lead tweet has the strongest hook. Numbers (44%, –2.7 pp) appear in the first 80 chars.
 - Each tweet is self-contained — readable if someone joins mid-thread.
 - No hashtags except minimally on the asks tweet (and even there, optional).
 - Reply-thread style, not standalone posts — Twitter rewards threads in algorithm now.
@@ -108,7 +108,7 @@ Update from launch day:
 
 ## Pre-post checklist
 
-- [ ] All `[CALIBRATION_*]` placeholders replaced with locked numbers from `calibration.md`
+- [x] All calibration placeholders replaced with locked numbers from `calibration.md` (44%, –2.7 pp)
 - [ ] Each tweet copy-pasted into Twitter compose, character count verified ≤ 280
 - [ ] `launch/screenshots/benchmark-screenshot.png` exists and is legible at Twitter's preview size
 - [ ] Lead tweet's image alt-text written (accessibility — describe the routing/accuracy/cost block in 80 chars)

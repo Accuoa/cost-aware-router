@@ -9,9 +9,9 @@ const content = ContentSchema.parse(contentJson);
 
 <Landing content={content} pageTitle={`Launching ${content.project.name}`}>
   <article class="prose dark:prose-invert">
-    {/* TODO[T11]: replace [SAVINGS_PCT] with the calibrated savings number from calibration.md */}
+    {/* TODO[T11]: replace 44 with the calibrated savings number from calibration.md */}
     <h1>
-      Save ~[SAVINGS_PCT]% on your LLM bill by sending the easy stuff to your laptop
+      Save ~44% on your LLM bill by sending the easy stuff to your laptop
     </h1>
 
     <p class="text-sm text-slate-500" data-testid="launch-post-meta">
@@ -114,18 +114,20 @@ const content = ContentSchema.parse(contentJson);
       where the money goes.
     </p>
 
-    {/* Section 5 — the numbers (NEEDS T11) */}
+    {/* Section 5 — the numbers */}
     <h2>The numbers (from a public benchmark)</h2>
 
     <p>
-      {/*
-        TODO[T11]: rewrite this paragraph with the calibrated final numbers from calibration.md.
-        Target: ~150 words. Mention dataset (50 MMLU + 25 HumanEval-JS), cloud baseline
-        (llama-3.3-70b-versatile via Groq), local model (qwen2.5:3b via Ollama), savings %,
-        accuracy delta, routing breakdown. Be honest about workload bias — public benchmarks
-        favor mixed-difficulty distributions and don't mirror any one team's real distribution.
-      */}
-      [CALIBRATION_NARRATIVE_PARAGRAPH]
+      On the public benchmark — 50 MMLU items stratified across 5 subjects (high-school world
+      history, college biology, miscellaneous, formal logic, professional psychology) and 25
+      HumanEval-JS items — the proxy at default config (300-token threshold, contains-code rule,
+      complexity keywords) routed 55% of requests to local Ollama
+      (<code>qwen2.5:3b</code>) and 45% to cloud Groq (<code>llama-3.3-70b-versatile</code>).
+      The result: <strong>44% cost reduction vs an all-cloud baseline, with a –2.7 pp accuracy
+      delta</strong> — essentially within eval noise on this workload. The accuracy gap was
+      identical at threshold 200 and 300 (the marginal items shifted to local at 300 are easy
+      enough that both models score them the same); the gap widens at higher thresholds
+      where prompts that genuinely strain a 3B model start staying local.
     </p>
 
     <p>
@@ -133,7 +135,19 @@ const content = ContentSchema.parse(contentJson);
       <code>npm run benchmark</code> verifies them):
     </p>
 
-    <pre><code>{`[CALIBRATION_OUTPUT_BLOCK — ROUTING / ACCURACY / COST from final calibration.md]`}</code></pre>
+    <pre><code>{`ROUTING:
+  local:  41 / 75 (54.7%) — qwen2.5:3b via Ollama
+  cloud:  34 / 75 (45.3%) — llama-3.3-70b-versatile
+
+ACCURACY:
+  with proxy:    65 / 75 (86.7%)
+  all-cloud:     67 / 75 (89.3%)
+  delta:         -2.7 pp
+
+COST:
+  with proxy:    $0.0050
+  all-cloud:     $0.0090
+  savings:       44.4%`}</code></pre>
 
     <p>
       The full calibration log, including every tuning iteration, lives in
