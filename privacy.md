@@ -32,7 +32,7 @@ You can request:
 - Deletion of that row
 - Correction of any field
 
-Email [259742773+Accuoa@users.noreply.github.com](https://twitter.com/AccuoaAgent) and we'll respond within 30 days.
+Email [259742773+Accuoa@users.noreply.github.com](mailto:259742773+Accuoa@users.noreply.github.com) (or open an issue at [github.com/Accuoa/cost-aware-router/issues](https://github.com/Accuoa/cost-aware-router/issues)) and we'll respond within 30 days.
 
 You can also unsubscribe at any time via the link in any email we send you.
 

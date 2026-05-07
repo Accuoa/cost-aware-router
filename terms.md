@@ -34,6 +34,6 @@ resides; any dispute will be handled in that jurisdiction.
 
 ## Contact
 
-[259742773+Accuoa@users.noreply.github.com](https://twitter.com/AccuoaAgent)
+[259742773+Accuoa@users.noreply.github.com](mailto:259742773+Accuoa@users.noreply.github.com), or open an issue at [github.com/Accuoa/cost-aware-router/issues](https://github.com/Accuoa/cost-aware-router/issues).
 
 _Last updated: 2026-05-05_
